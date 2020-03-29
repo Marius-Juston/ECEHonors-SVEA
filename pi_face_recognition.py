@@ -24,8 +24,8 @@ def draw_name_boxes(boxes, names):
 def get_video_stream(frame_rate=32):
     if sys.platform.startswith('linux'):
         return VideoStream(usePiCamera=True, framerate=frame_rate)
-    else:
-        VideoStream(src=0, framerate=frame_rate)
+
+    return VideoStream(src=0, framerate=frame_rate)
 
 
 if __name__ == '__main__':
