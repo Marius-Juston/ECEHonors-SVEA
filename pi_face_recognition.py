@@ -1,6 +1,3 @@
-# USAGE
-# python pi_face_recognition.py --cascade haarcascade_frontalface_default.xml --encodings encodings.pickle
-
 import pickle
 import sys
 import time
@@ -10,10 +7,8 @@ import face_recognition
 import imutils
 from cv2.cv2 import VideoWriter
 from imutils.video import FPS
-# import the necessary packages
 from imutils.video import VideoStream
 
-# construct the argument parser and parse the arguments
 cascade = 'haarcascade_frontalface_default.xml'
 encodings = 'encodings.pickle'
 
@@ -24,7 +19,6 @@ data = pickle.loads(open(encodings, "rb").read())
 detector = cv2.CascadeClassifier(cascade)
 
 frame_rate = 32
-# initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
 
 vs = None
