@@ -28,7 +28,7 @@ def get_video_stream(frame_rate=32):
     return VideoStream(src=0, framerate=frame_rate)
 
 
-def process_frame(frame):
+def process_frame(frame, detector, data):
     frame = imutils.resize(frame, width=500)
 
     # convert the input frame from (1) BGR to grayscale (for face
@@ -111,7 +111,7 @@ if __name__ == '__main__':
         # grab the frame from the threaded video stream and resize it
         # to 500px (to speedup processing)
         frame = vs.read()
-        frame = process_frame(frame)
+        frame = process_frame(frame, detector, data)
 
         if out is None:
             (h, w) = frame.shape[:2]
