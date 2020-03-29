@@ -4,9 +4,9 @@ from datetime import datetime
 import cv2
 import face_recognition
 import imutils
+import numpy as np
 
 from imagezmq import ImageHub
-import numpy as np
 
 
 def draw_name_boxes(frame, boxes, names):
@@ -49,7 +49,7 @@ def process_frame(frame, detector, data):
         matches = face_recognition.compare_faces(data["encodings"], encoding)
         name = "Unknown"
 
-        face_distances = face_recognition.face_distance(data['encodings'],encoding)
+        face_distances = face_recognition.face_distance(data['encodings'], encoding)
         best_match_index = np.argmin(face_distances)
         if matches[best_match_index]:
             name = data['names'][best_match_index]
