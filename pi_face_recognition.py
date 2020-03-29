@@ -5,6 +5,7 @@ import time
 import cv2
 import face_recognition
 import imutils
+import numpy as np
 from cv2.cv2 import VideoWriter
 from imutils.video import FPS
 from imutils.video import VideoStream
@@ -58,24 +59,10 @@ def process_frame(frame, detector, data):
                                                  encoding)
         name = "Unknown"
 
-        # check to see if we have found a match
-        if True in matches:
-            # find the indexes of all matched faces then initialize a
-            # dictionary to count the total number of times each face
-            # was matched
-            matchedIdxs = [i for (i, b) in enumerate(matches) if b]
-            counts = {}
-
-            # loop over the matched indexes and maintain a count for
-            # each recognized face face
-            for i in matchedIdxs:
-                name = data["names"][i]
-                counts[name] = counts.get(name, 0) + 1
-
-            # determine the recognized face with the largest number
-            # of votes (note: in the event of an unlikely tie Python
-            # will select first entry in the dictionary)
-            name = max(counts, key=counts.get)
+        face_distances = face_recognition.face_distance(data['encodings'], encoding)
+        best_match_index = np.argmin(face_distances)
+        if matches[best_match_index]:
+            name = data['names'][best_match_index]
 
         # update the list of names
         names.append(name)
