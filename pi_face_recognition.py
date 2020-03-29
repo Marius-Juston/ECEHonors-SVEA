@@ -76,6 +76,8 @@ if __name__ == '__main__':
     cascade = 'haarcascade_frontalface_default.xml'
     encodings = 'encodings.pickle'
 
+    record = True
+
     # load the known faces and embeddings along with OpenCV's Haar
     # cascade for face detection
     print("[INFO] loading encodings + face detector...")
@@ -100,11 +102,13 @@ if __name__ == '__main__':
         frame = vs.read()
         frame = process_frame(frame, detector, data)
 
-        if out is None:
-            (h, w) = frame.shape[:2]
-            out = VideoWriter("outpy.avi", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate, (w, h))
+        if record:
+            if out is None:
+                (h, w) = frame.shape[:2]
+                out = VideoWriter("outpy.avi", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate, (w, h))
 
-        out.write(frame)
+            out.write(frame)
+
         # display the image to our screen
         cv2.imshow("Frame", frame)
 
@@ -125,4 +129,6 @@ if __name__ == '__main__':
     # do a bit of cleanup
     cv2.destroyAllWindows()
     vs.stop()
-    out.release()
+
+    if record:
+        out.release()
