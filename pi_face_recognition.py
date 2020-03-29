@@ -1,8 +1,8 @@
 # USAGE
 # python pi_face_recognition.py --cascade haarcascade_frontalface_default.xml --encodings encodings.pickle
 
-import argparse
 import pickle
+import sys
 import time
 
 import cv2
@@ -26,8 +26,14 @@ detector = cv2.CascadeClassifier(cascade)
 frame_rate = 32
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(src=0, framerate=frame_rate).start()
-# vs = VideoStream(usePiCamera=True).start()
+
+vs = None
+
+if sys.platform.startswith('linux'):
+    vs = VideoStream(usePiCamera=True, framerate=frame_rate).start()
+else:
+    vs = VideoStream(src=0, framerate=frame_rate).start()
+
 time.sleep(2.0)
 
 # start the FPS counter
