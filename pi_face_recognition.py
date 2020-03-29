@@ -14,7 +14,6 @@ from imutils.video import FPS
 from imutils.video import VideoStream
 
 # construct the argument parser and parse the arguments
-ap = argparse.ArgumentParser()
 cascade = 'haarcascade_frontalface_default.xml'
 encodings = 'encodings.pickle'
 
@@ -24,9 +23,10 @@ print("[INFO] loading encodings + face detector...")
 data = pickle.loads(open(encodings, "rb").read())
 detector = cv2.CascadeClassifier(cascade)
 
+frame_rate = 32
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(src=0).start()
+vs = VideoStream(src=0, framerate=frame_rate).start()
 # vs = VideoStream(usePiCamera=True).start()
 time.sleep(2.0)
 
@@ -102,7 +102,7 @@ while True:
 
     if out is None:
         (h, w) = frame.shape[:2]
-        out = VideoWriter("outpy.avi", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (w, h))
+        out = VideoWriter("outpy.avi", cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), frame_rate, (w, h))
 
     out.write(frame)
     # display the image to our screen
